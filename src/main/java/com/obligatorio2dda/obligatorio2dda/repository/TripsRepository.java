@@ -13,16 +13,15 @@ public interface TripsRepository extends JpaRepository<Trips, Long>{
     @Query(value = "SELECT v.* FROM viajes v WHERE v.eliminado = false", nativeQuery = true)
     public Iterable<Trips> findAllFalse();
 
-    @Query(value = "SELECT v.* FROM viajes v WHERE v.id NOT IN (SELECT v.id FROM viajes v INNER JOIN client_travel ct ON v.id = ct.trips_id WHERE v.eliminado = false AND ct.client_id = :clienteId)", nativeQuery = true)
-    public Iterable<Trips> findViajesNotInViajesCliente(@Param("clienteId") Long clienteId);
-
-    @Query(value = "SELECT v.* FROM viajes v INNER JOIN client_travel ct ON v.id = ct.trips_id WHERE v.eliminado = false AND ct.client_id = :clienteId", nativeQuery = true)
-    public List<Trips> findViajesByClienteId(@Param("clienteId") Long clienteId);
-
     @Modifying
     @Query(value = "DELETE FROM client_travel WHERE client_id = :clienteId AND trips_id = :viajeId", nativeQuery = true)
     public void deleteViajeClienteById(@Param("clienteId") Long clienteId, @Param("viajeId") Long viajeId);
 
+    @Query(value = "SELECT v.* FROM viajes v INNER JOIN client_travel ct ON v.id = ct.trips_id WHERE v.eliminado = false AND ct.client_id = :clienteId", nativeQuery = true)
+    public List<Trips> findViajesByClienteId(@Param("clienteId") Long clienteId);
+
+    @Query(value = "SELECT v.* FROM viajes v WHERE v.id NOT IN (SELECT v.id FROM viajes v INNER JOIN client_travel ct ON v.id = ct.trips_id WHERE v.eliminado = false AND ct.client_id = :clienteId)", nativeQuery = true)
+    public Iterable<Trips> findViajesNotInViajesCliente(@Param("clienteId") Long clienteId);
 
     @Modifying
     @Query(value = "DELETE FROM client_travel WHERE client_id = :clienteId", nativeQuery = true)
