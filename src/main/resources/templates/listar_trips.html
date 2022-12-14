@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <title>Lista de Viajes</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+
+</head>
+<body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+  crossorigin="anonymous"></script>
+  <nav class="navbar navbar-expand-lg" style="background-color: #e28c8c;">
+    <div class="container-fluid">
+      <a class="navbar-brand" th:href="@{/}">Service Travel</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
+        aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" th:href="@{listarTravel}">Travel</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" th:href="@{listarClientStandar}">ClientStantdar</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" th:href="@{listarClientPremium}">ClientPremium</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <br />
+    <div class="container">
+      <div class="row" style="text-align: center;">
+  
+        <div th:if="${msgExito != null}"
+                class="alert alert-success alert-dismissible">
+                [[${msgExito}]]
+                <button type="button" class="btn btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        <div th:if="${msgError != null}"
+                class="alert alert-danger alert-dismissible">
+                [[${msgError}]]
+                <button type="button" class="btn btn-close" data-bs-dismiss="alert"></button>
+            </div>
+  
+  
+        <h1>Lista de Viajes</h1>
+      </div>
+      <div class="row">
+        <div class="col-lg-3 col-md-3 col-sm-3">
+          <a th:href="@{/gestionTrips}" class="btn btn-success btn-md mb-3">Agregar Viaje</a>
+        </div>
+      </div>
+      <table class="table table-striped table-bordered">
+        <thead class="table-dark">
+          <tr>
+            <th>Id</th>
+            <th>Destino</th>
+            <th>Fecha</th>
+            <th>Modalidad</th>
+            <th>Precio</th>
+            <th>Consultas</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="trips : ${travel}">
+            <td th:text="${trips.id}">Id</td>
+            <td th:text="${trips.destino}">Destino</td>
+            <td th:text="${trips.fecha}">Fecha</td>
+            <td th:text="${trips.modalidad}">Modalidad</td>
+            <td th:text="${trips.precio}">Precio</td>
+            <td style="display:flex; justify-content:center; align-items:center;">
+              <a th:href="@{/cargarTrips/} + ${trips.id}" class="btn btn-warning" style="margin-left:1%; margin-right: 1%;">Modificar</a>
+              <a th:href="@{/deleteTrips/} + ${trips.id}" class="btn btn-danger" style="margin-left:1%; margin-right: 1%;">Eliminar</a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </body>
+  
+  </html>
