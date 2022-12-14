@@ -53,6 +53,7 @@ public class TripsController {
     @PostMapping(value = "/guardarTrips")
     public String guardarTrips(@Validated @ModelAttribute("trips") Trips trips, BindingResult bindingResult,
     RedirectAttributes redirect, Model modelo) {
+        try{
         if(bindingResult.hasErrors())
         {
             return "agregar_trips";
@@ -61,12 +62,24 @@ public class TripsController {
         redirect.addFlashAttribute("msgExito", "El viaje fue agregado con exito");
         return "redirect:/listarTrips";
     }
+    catch(Exception e) {
+        redirect.addFlashAttribute("msgError",
+                    "Error, hubo un error");
+            return "redirect:/listarTrips";
+        }
+    }
 
     @GetMapping(value = "/cargarTrips/{id}")
-    public String cargarTrips(@PathVariable(value = "id") Long id, Model modelo) {
+    public String cargarTrips(@PathVariable(value = "id") Long id, Model modelo, RedirectAttributes redirect) {
+        try{
         Trips trips = tripsServiceImp.findById(id);
         modelo.addAttribute("trips", trips);
         return "editar_trips";
+        }catch (Exception e) {
+            redirect.addFlashAttribute("msgError",
+                    "Error, hubo un error al cargar los Viajes");
+            return "redirect:/listarTrips";
+        }
     }
 
     @PostMapping(value = "/modificarTrips/{id}")
@@ -87,37 +100,59 @@ public class TripsController {
         return "redirect:/listarTrips";
         }catch(Exception e){
             System.out.println(e);
-            redirect.addFlashAttribute("msgError", "Ocurrio un error, no se logro modificar, compruebe que los datos sean correctos");
+            redirect.addFlashAttribute("msgError", "Error, hubo un error al modificar los Viajes");
             return "redirect:/listarTrips";
         }
     }
 
     @GetMapping(value = "/deleteTrips/{id}")
-    public String eliminarTrips(@PathVariable Long id) {
-        tripsService.deleteById(id);
-        return "redirect:/listarTrips";
+    public String eliminarTrips(@PathVariable Long id, RedirectAttributes redirect) {
+        try{
+            tripsService.deleteById(id);
+            redirect.addFlashAttribute("msgExito",
+                    "El viaje ha sido eliminado con éxito");
+            return "redirect:/listarTrips";
+        }catch (Exception e) {
+            redirect.addFlashAttribute("msgError",
+                    "Error, hubo un error al eliminar el viaje");
+            return "redirect:/listarTrips";
+        }
     }
 
     @GetMapping(value = "/ViajeProximo/{ci}")
-    public String consultaCliente(@PathVariable(value = "ci") Long ci, Model modelo){
-        modelo.addAttribute("ci", ci);
-        modelo.addAttribute("trips", new Trips());
-        return "viajeProx";
+    public String consultaCliente(@PathVariable(value = "ci") Long ci, Model modelo, RedirectAttributes redirect){
+        try{
+            modelo.addAttribute("ci", ci);
+            modelo.addAttribute("trips", new Trips());
+            return "viajeProx";
+        }catch(Exception e) {
+            redirect.addFlashAttribute("msgError",
+                    "Error, hubo un error buscando el viaje");
+            return "redirect:/listarTrips";
+        }
+        
     }
 
     @RequestMapping(value = "/ViajeProximo/{ci}/Dia/{fecha}")
-    public String consultaClienteFecha(@RequestParam(value = "ci", required = false) Long ci, @RequestParam(value = "fecha", required = false) String fecha, Model modelo){
-        Client client = clientService.findById(ci);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        java.sql.Date fechaConvertida = null;
+    public String consultaClienteFecha(@RequestParam(value = "ci", required = false) Long ci, @RequestParam(value = "fecha", required = false) String fecha, Model modelo, RedirectAttributes redirect){
         try{
-            java.util.Date fechaTrips = dateFormat.parse(fecha);
-            fechaConvertida = new java.sql.Date(fechaTrips.getTime());
-        }catch(Exception e){
-            System.out.println(e);
+            Client client = clientService.findById(ci);
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            java.sql.Date fechaConvertida = null;
+            try{
+                java.util.Date fechaTrips = dateFormat.parse(fecha);
+                fechaConvertida = new java.sql.Date(fechaTrips.getTime());
+            }catch(Exception e){
+                System.out.println(e);
+            }
+            Trips trips = tripsRepository.findViajeByClienteIdAndViajeFecha(fechaConvertida, client.getId());
+            modelo.addAttribute("trips", trips);
+            return "viajeProx";
+        } catch(Exception e) {
+            redirect.addFlashAttribute("msgError",
+                    "Error, fecha no corresponde al viaje de un cliente");
+            return "redirect:/listarViajes";
         }
-        Trips trips = tripsRepository.findViajeByClienteIdAndViajeFecha(fechaConvertida, client.getId());
-        modelo.addAttribute("trips", trips);
-        return "viajeProx";
+        
     }
 }

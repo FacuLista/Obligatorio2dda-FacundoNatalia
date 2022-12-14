@@ -5,6 +5,7 @@ import java.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.stereotype.Controller;
@@ -90,16 +91,23 @@ public class AddTripsController {
 
   @GetMapping(value = "/cargarTripsClient/{ci}")
   public String listarTripsClient(@PathVariable(value = "ci") Long ci, Model modelo) {
-    Client client = clientService.findById(ci);
+    try{
+      Client client = clientService.findById(ci);
     Iterable<Trips> listaClientsTrips = tripsRepository.findViajesByClienteId(client.getId());
     modelo.addAttribute("clientsTrips", listaClientsTrips);
     modelo.addAttribute("client", client);
     return "del_CT";
+    }catch(Exception e){
+      System.out.println(e);
+      return "redirect:/listarClients";
+    }
+    
   }
 
   @GetMapping(value = "/eliminarTrips/{id}/client/{ci}")
-  public String eliminarClientTrips(@PathVariable Long ci, @PathVariable Long id) {
-    Client client = clientService.findById(ci);
+  public String eliminarClientTrips(@PathVariable Long ci, @PathVariable Long id, RedirectAttributes redirect) {
+    try{
+      Client client = clientService.findById(ci);
     tripsServiceImp.deleteViajeClienteById(client.getId(), id);
     int cont = client.getViajes().size();
     if(cont < 3){
@@ -107,5 +115,10 @@ public class AddTripsController {
       clientService.save(client);
     }
     return "redirect:/listarClients";
+    }catch(Exception e){
+      redirect.addFlashAttribute("msgError", "Error, no se pudo eliminar el viaje");
+      return "viajeprox";
+    }
+    
   }
 }
