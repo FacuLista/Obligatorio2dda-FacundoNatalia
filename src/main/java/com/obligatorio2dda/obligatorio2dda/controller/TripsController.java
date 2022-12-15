@@ -25,7 +25,7 @@ import com.obligatorio2dda.obligatorio2dda.service.TripsServiceImp;
 @Controller
 public class TripsController {
 
-    @Autowired
+    @Autowired // Autowired: Importa y hace relación con Service
     private TripsService tripsService;
 
     @Autowired

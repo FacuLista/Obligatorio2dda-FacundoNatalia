@@ -22,7 +22,7 @@ import com.obligatorio2dda.obligatorio2dda.repository.TripsRepository;
 @Controller
 public class ClientController {
     
-    @Autowired
+    @Autowired // Autowired: Importa y hace relación con Service
   private ClientService clientService;
 
   @Autowired

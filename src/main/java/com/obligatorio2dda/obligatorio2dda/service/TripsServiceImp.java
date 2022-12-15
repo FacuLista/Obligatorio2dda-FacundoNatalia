@@ -16,7 +16,7 @@ public class TripsServiceImp implements TripsService{
 
     @Override
     @Transactional(readOnly = true)
-    public Iterable<Trips> findAll(){
+    public Iterable<Trips> findAll(){   // Iterable es un interface que hace referencia a una colección de elementos que se puede recorrer
         return tripsRepository.findAll();
     }
 
