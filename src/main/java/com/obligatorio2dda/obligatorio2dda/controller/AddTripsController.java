@@ -94,7 +94,7 @@ public class AddTripsController {
     try{
       Client client = clientService.findById(ci);
     Iterable<Trips> listaClientsTrips = tripsRepository.findViajesByClienteId(client.getId());
-    modelo.addAttribute("clientsTrips", listaClientsTrips);
+    modelo.addAttribute("clientsTrips", listaClientsTrips); //Se inyecta un modelo para poder añadir datos
     modelo.addAttribute("client", client);
     return "del_CT";
     }catch(Exception e){

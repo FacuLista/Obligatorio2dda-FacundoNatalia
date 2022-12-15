@@ -45,7 +45,7 @@ public class TripsController {
 
     @GetMapping(value = "/gestionTrips")
     public String gestionTrips(Model modelo) {
-        modelo.addAttribute("trips", new Trips());
+        modelo.addAttribute("trips", new Trips()); //Se inyecta un modelo para poder añadir datos.
         return "agregar_trips";
     }
 
