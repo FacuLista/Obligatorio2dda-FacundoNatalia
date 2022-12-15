@@ -51,8 +51,8 @@ public class AddTripsController {
           cliStand.setFirstname(client.getFirstname());
           cliStand.setLastname(client.getLastname());
           cliStand.setEmail(client.getEmail()); 
-          for (Trips tripsAP : client.getViajes()) {
-            listaTrips.add(tripsAP);
+          for (Trips trips : client.getViajes()) {
+            listaTrips.add(trips);
           }
           for (Trips trips : listaTrips) {
             Double precio = trips.getPrecio() * 0.80;

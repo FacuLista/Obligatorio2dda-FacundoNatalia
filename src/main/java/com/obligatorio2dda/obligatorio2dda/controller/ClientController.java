@@ -34,19 +34,19 @@ public class ClientController {
   @Autowired
   private TripsServiceImp tripsServiceImp;
 
-  @GetMapping(value = "/listarClients")
+  @GetMapping(value = "/listarClients") //Se usa para recuperar información
   public String listarClients(Model modelo) {
     modelo.addAttribute("clients", clientService.findAll());
     return "listar_clients";
   }
 
-  @GetMapping(value = "/gestionClient")
+  @GetMapping(value = "/gestionClient") 
   public String gestionClient(Model modelo) {
     modelo.addAttribute("client", new Client());
     return "agregar_client";
   }
 
-  @PostMapping(value = "/guardarClient")
+  @PostMapping(value = "/guardarClient") //Se usa principalmente al registrar información nueva
   public String guardarClient(@Validated @ModelAttribute("client") Client client, BindingResult bindingResult,
       RedirectAttributes redirect) {
     try {

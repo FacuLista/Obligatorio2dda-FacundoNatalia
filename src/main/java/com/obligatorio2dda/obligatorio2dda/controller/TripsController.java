@@ -133,7 +133,7 @@ public class TripsController {
         
     }
 
-    @RequestMapping(value = "/ViajeProximo/{ci}/Dia/{fecha}")
+    @RequestMapping(value = "/ViajeProximo/{ci}/Dia/{fecha}") // Es una anotación que se encarga de relacionar un método con una petición http
     public String consultaClienteFecha(@RequestParam(value = "ci", required = false) Long ci, @RequestParam(value = "fecha", required = false) String fecha, Model modelo, RedirectAttributes redirect){
         try{
             Client client = clientService.findById(ci);
