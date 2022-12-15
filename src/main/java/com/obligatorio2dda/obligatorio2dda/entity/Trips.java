@@ -24,7 +24,8 @@ import javax.validation.constraints.*;
 @SQLDelete(sql = "UPDATE viajes SET eliminado = true WHERE id = ?", check = ResultCheckStyle.NONE)
 @Where(clause = "eliminado = false")
 public class Trips implements Serializable{
-    
+
+//Atributos
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -47,10 +48,12 @@ public class Trips implements Serializable{
 
     private boolean eliminado = false;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "viajes")
-    @JsonIgnore
+//Relación con Client
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "viajes") //MappedBy: Relación inversa con la entidad de destino
+    @JsonIgnore //Para ignorar algunos atributos cuando se serializa Json
     private Set<Client> clientes = new HashSet<>();
 
+//Getters y Setters
     public Long getId() {
         return id;
     }
@@ -107,10 +110,12 @@ public class Trips implements Serializable{
         this.eliminado = eliminado;
     }
 
-    public Trips() {
+// Constructor Vacío
+    public Trips() { 
     }
 
-    public Trips(Long id, String destino, Date fecha, String modalidad, Double precio, boolean eliminado) {
+//Consutructor
+    public Trips(Long id, String destino, Date fecha, String modalidad, Double precio, boolean eliminado) { 
         this.id = id;
         this.destino = destino;
         this.fecha = fecha;

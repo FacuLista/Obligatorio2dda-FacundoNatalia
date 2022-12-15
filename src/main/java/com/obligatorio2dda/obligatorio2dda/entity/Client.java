@@ -21,7 +21,8 @@ import javax.validation.constraints.*;
 @Entity(name="clientes")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Client implements Serializable{
-    
+ 
+//Atributos
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -45,8 +46,9 @@ public class Client implements Serializable{
     private String email;
 
     @Column(length = 8, nullable = false)
-    private String tipo = "Standar";
+    private String tipo = "Estándar";
 
+//Getters y Setters
     public Long getId() {
         return id;
     }
@@ -95,6 +97,7 @@ public class Client implements Serializable{
         this.tipo = tipo;
     }
 
+//Constructores
     public Client(Long id, Long ci,
             String firstname, String lastname, String email, String tipo) {
         this.id = id;
@@ -109,11 +112,15 @@ public class Client implements Serializable{
     public Client() {
     }
 
+//Relación
+            // FETCH: Mecanismo que permite hacer llamadas simples AJAX con JavaScript.
     @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     @JoinTable(name = "client_travel", joinColumns = @JoinColumn(name = "client_id"), inverseJoinColumns = @JoinColumn(name = "trips_id"))
 
-    private Set<Trips> viajes = new HashSet<>();
-
+    private Set<Trips> viajes = new HashSet<>(); //HashSet: Contiene un conjunto de objetos de una manera que le permite determinar
+                                                // facil y rapidamente si un objeto ya está en el conjunto o no
+    
+//Getters y Setters de los viajes que tiene el cliente
     public void setViajes(Set<Trips> viajes) {
         this.viajes = viajes;
     }

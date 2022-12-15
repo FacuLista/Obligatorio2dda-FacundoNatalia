@@ -13,7 +13,7 @@ public class ClientServiceImp implements ClientService{
     @Autowired
     private ClientRepository clientRepository;
 
-    @Override
+    @Override //Sobreescribir
     @Transactional(readOnly = true)
     public Iterable<Client> findAll(){
         return clientRepository.findAll();
