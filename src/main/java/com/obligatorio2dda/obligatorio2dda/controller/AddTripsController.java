@@ -77,7 +77,7 @@ public class AddTripsController {
       }
       cont = cliStand.getViajes().size();
       if(cont >= 3){
-        cliStand.setTipo("Vip");
+        cliStand.setTipo("Premium");
       }else{
         cliStand.setTipo("Estándar");
       }
