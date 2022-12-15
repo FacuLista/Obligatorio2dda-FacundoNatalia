@@ -111,6 +111,17 @@ public class ClientController {
     }
   }
 
+  @GetMapping(value = "/deleteClient/{ci}")
+  public String deleteClient(@PathVariable Long ci) {
+    try {
+      Client client = clientService.findById(ci);
+      tripsServiceImp.deleteAllViajesClienteById(client.getId());
+      clientService.deleteById(client.getId());
+      return "redirect:/listarClients";
+    } catch (Exception e) {
+      return "redirect:/listarClients";
+    }
+  }
   
 
   @GetMapping(value = "/cargarAddClient/{ci}")
@@ -127,16 +138,4 @@ public class ClientController {
     }
   }
 
-
-  @GetMapping(value = "/deleteClient/{ci}")
-  public String deleteClient(@PathVariable Long ci) {
-    try {
-      Client client = clientService.findById(ci);
-      tripsServiceImp.deleteAllViajesClienteById(client.getId());
-      clientService.deleteById(client.getId());
-      return "redirect:/listarClients";
-    } catch (Exception e) {
-      return "redirect:/listarClients";
-    }
-  }
 }

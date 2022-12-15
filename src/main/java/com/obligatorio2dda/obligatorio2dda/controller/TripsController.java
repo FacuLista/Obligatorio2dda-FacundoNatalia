@@ -122,8 +122,8 @@ public class TripsController {
     @GetMapping(value = "/ViajeProximo/{ci}")
     public String consultaCliente(@PathVariable(value = "ci") Long ci, Model modelo, RedirectAttributes redirect){
         try{
-            modelo.addAttribute("ci", ci);
-            modelo.addAttribute("trips", new Trips());
+            modelo.addAttribute("ci", ci); 
+            modelo.addAttribute("trips", new Trips()); //Se inyecta un modelo para poder añadir datos que luego serán sustituidos al generar la vista. 
             return "viajeProx";
         }catch(Exception e) {
             redirect.addFlashAttribute("msgError",
