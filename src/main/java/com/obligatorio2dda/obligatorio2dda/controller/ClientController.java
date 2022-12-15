@@ -53,7 +53,7 @@ public class ClientController {
       Iterable<Client> listaClient = clientService.findAll();
       for (Client cliStan : listaClient) {
         if (cliStan.getCi().equals(client.getCi()) || cliStan.getEmail().equals(client.getEmail())) {
-          redirect.addFlashAttribute("msgError", "Error : La cédula o el email del cliente ya existen");
+          redirect.addFlashAttribute("msgError", "Error, alguno de los datos ingresados ya existen");
           return "redirect:/gestionClient";
         }
       }
@@ -92,7 +92,7 @@ public class ClientController {
       return "redirect:/listarClients";
     } catch (Exception e) {
       System.out.println(e);
-      redirect.addFlashAttribute("msgError", "Ocurrio un error, no se logro modificar, compruebe que los datos sean correctos");
+      redirect.addFlashAttribute("msgError", "Error, no se pudo modificar, vuelva a intentarlo");
       return "redirect:/listarClients";
     }
   }
