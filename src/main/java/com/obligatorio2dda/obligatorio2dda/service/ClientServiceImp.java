@@ -20,9 +20,10 @@ public class ClientServiceImp implements ClientService{
     }
 
     @Override
-    @Transactional(readOnly = true) // transactional es un metadato que especifica que una interfaz, clase o método debe tener semántica transaccional
+    @Transactional(readOnly = true) // se utiliza transactional cuando solo se va a hacer una consulta, en  este caso solo de lectura
     public Client findById(Long Ci)
     {
+        //Iterable es que tiene la capacidad de repetirse
         Iterable<Client> listaClients = clientRepository.findAll();
         for (Client client : listaClients) {
             if(client.getCi().equals(Ci)){

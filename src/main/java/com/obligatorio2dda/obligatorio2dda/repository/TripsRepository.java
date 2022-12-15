@@ -22,6 +22,7 @@ public interface TripsRepository extends JpaRepository<Trips, Long>{
     //Buscar los viajes que tiene un cliente
     @Query(value = "SELECT v.* FROM viajes v INNER JOIN client_travel ct ON v.id = ct.trips_id WHERE v.eliminado = false AND ct.client_id = :clienteId", nativeQuery = true)
     public List<Trips> findViajesByClienteId(@Param("clienteId") Long clienteId);
+    //Query: Definir una consulta que vamos a ejecutar
 
     //Buscar que no están en la relación
     @Query(value = "SELECT v.* FROM viajes v WHERE v.id NOT IN (SELECT v.id FROM viajes v INNER JOIN client_travel ct ON v.id = ct.trips_id WHERE v.eliminado = false AND ct.client_id = :clienteId)", nativeQuery = true)

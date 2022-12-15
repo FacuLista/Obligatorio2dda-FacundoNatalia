@@ -151,7 +151,7 @@ public class TripsController {
         } catch(Exception e) {
             redirect.addFlashAttribute("msgError",
                     "Error, fecha no corresponde al viaje de un cliente");
-            return "redirect:/listarViajes";
+            return "redirect:/listarTrips";
         }
         
     }
